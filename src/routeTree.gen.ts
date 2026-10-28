@@ -10,33 +10,140 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AProposRouteImport } from './routes/a-propos'
+import { Route as AgencesRouteImport } from './routes/agences'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as HajjRouteImport } from './routes/hajj'
+import { Route as HotelsRouteImport } from './routes/hotels'
+import { Route as OmraRouteImport } from './routes/omra'
+import { Route as VoyagesRouteImport } from './routes/voyages'
+import { Route as OmraSlugRouteImport } from './routes/omra.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AProposRoute = AProposRouteImport.update({
+  id: '/a-propos',
+  path: '/a-propos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgencesRoute = AgencesRouteImport.update({
+  id: '/agences',
+  path: '/agences',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HajjRoute = HajjRouteImport.update({
+  id: '/hajj',
+  path: '/hajj',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HotelsRoute = HotelsRouteImport.update({
+  id: '/hotels',
+  path: '/hotels',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OmraRoute = OmraRouteImport.update({
+  id: '/omra',
+  path: '/omra',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VoyagesRoute = VoyagesRouteImport.update({
+  id: '/voyages',
+  path: '/voyages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OmraSlugRoute = OmraSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => OmraRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
+  '/agences': typeof AgencesRoute
+  '/contact': typeof ContactRoute
+  '/hajj': typeof HajjRoute
+  '/hotels': typeof HotelsRoute
+  '/omra': typeof OmraRouteWithChildren
+  '/voyages': typeof VoyagesRoute
+  '/omra/$slug': typeof OmraSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
+  '/agences': typeof AgencesRoute
+  '/contact': typeof ContactRoute
+  '/hajj': typeof HajjRoute
+  '/hotels': typeof HotelsRoute
+  '/omra': typeof OmraRouteWithChildren
+  '/voyages': typeof VoyagesRoute
+  '/omra/$slug': typeof OmraSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
+  '/agences': typeof AgencesRoute
+  '/contact': typeof ContactRoute
+  '/hajj': typeof HajjRoute
+  '/hotels': typeof HotelsRoute
+  '/omra': typeof OmraRouteWithChildren
+  '/voyages': typeof VoyagesRoute
+  '/omra/$slug': typeof OmraSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/a-propos'
+    | '/agences'
+    | '/contact'
+    | '/hajj'
+    | '/hotels'
+    | '/omra'
+    | '/voyages'
+    | '/omra/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/a-propos'
+    | '/agences'
+    | '/contact'
+    | '/hajj'
+    | '/hotels'
+    | '/omra'
+    | '/voyages'
+    | '/omra/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/a-propos'
+    | '/agences'
+    | '/contact'
+    | '/hajj'
+    | '/hotels'
+    | '/omra'
+    | '/voyages'
+    | '/omra/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AProposRoute: typeof AProposRoute
+  AgencesRoute: typeof AgencesRoute
+  ContactRoute: typeof ContactRoute
+  HajjRoute: typeof HajjRoute
+  HotelsRoute: typeof HotelsRoute
+  OmraRoute: typeof OmraRouteWithChildren
+  VoyagesRoute: typeof VoyagesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +155,84 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/a-propos': {
+      id: '/a-propos'
+      path: '/a-propos'
+      fullPath: '/a-propos'
+      preLoaderRoute: typeof AProposRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agences': {
+      id: '/agences'
+      path: '/agences'
+      fullPath: '/agences'
+      preLoaderRoute: typeof AgencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hajj': {
+      id: '/hajj'
+      path: '/hajj'
+      fullPath: '/hajj'
+      preLoaderRoute: typeof HajjRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hotels': {
+      id: '/hotels'
+      path: '/hotels'
+      fullPath: '/hotels'
+      preLoaderRoute: typeof HotelsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/omra': {
+      id: '/omra'
+      path: '/omra'
+      fullPath: '/omra'
+      preLoaderRoute: typeof OmraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/voyages': {
+      id: '/voyages'
+      path: '/voyages'
+      fullPath: '/voyages'
+      preLoaderRoute: typeof VoyagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/omra/$slug': {
+      id: '/omra/$slug'
+      path: '/$slug'
+      fullPath: '/omra/$slug'
+      preLoaderRoute: typeof OmraSlugRouteImport
+      parentRoute: typeof OmraRoute
+    }
   }
 }
 
+interface OmraRouteChildren {
+  OmraSlugRoute: typeof OmraSlugRoute
+}
+
+const OmraRouteChildren: OmraRouteChildren = {
+  OmraSlugRoute: OmraSlugRoute,
+}
+
+const OmraRouteWithChildren = OmraRoute._addFileChildren(OmraRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AProposRoute: AProposRoute,
+  AgencesRoute: AgencesRoute,
+  ContactRoute: ContactRoute,
+  HajjRoute: HajjRoute,
+  HotelsRoute: HotelsRoute,
+  OmraRoute: OmraRouteWithChildren,
+  VoyagesRoute: VoyagesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
