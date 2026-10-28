@@ -1,10 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
-import { PageHero } from "@/components/PageHero";
-import { Reveal } from "@/components/Reveal";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { whatsappLink, site } from "@/config/site";
+import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Socials } from "@/components/Socials";
+import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
+import { Accordion } from "@/components/ui-premium/Accordion";
+import { PageHero } from "@/components/ui-premium/PageHero";
+import { SectionHeading } from "@/components/ui-premium/SectionHeading";
+import { StaticLeadForm } from "@/components/ui-premium/StaticLeadForm";
+import { mapsLink, site, telLink, whatsappLink } from "@/config/site";
+import type { Faq } from "@/data/content";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -13,124 +16,133 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Contactez Morocco Travel Agency : WhatsApp, téléphone, email ou passez dans l'une de nos 4 agences à Tanger et Tétouan.",
+          "Contactez Morocco Travel Agency par WhatsApp, téléphone ou e-mail, ou rendez-vous dans l'une de nos 4 agences à Tanger et Tétouan.",
       },
       { property: "og:title", content: "Contact — Morocco Travel Agency" },
       {
         property: "og:description",
-        content: "Contactez-nous par WhatsApp, téléphone, email ou en agence.",
+        content: "WhatsApp, téléphone, e-mail ou passage en agence : parlons de votre prochain voyage.",
       },
     ],
   }),
   component: ContactPage,
 });
 
-function ContactPage() {
-  const [name, setName] = useState("");
-  const [message, setMessage] = useState("");
+const contactFaq: Faq[] = [
+  {
+    q: "Sous quel délai recevrai-je une réponse ?",
+    a: "Un conseiller vous recontacte dès que possible pendant les horaires d'ouverture. WhatsApp reste le moyen le plus rapide.",
+  },
+  {
+    q: "Puis-je venir sans rendez-vous ?",
+    a: "Oui, nos 4 agences vous accueillent pendant leurs horaires d'ouverture.",
+  },
+  {
+    q: "Le devis est-il gratuit ?",
+    a: "Oui, la demande de devis est gratuite et sans engagement.",
+  },
+];
 
-  // No backend yet: the form builds a pre-filled WhatsApp message.
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const text = message
-      ? `Bonjour, je suis ${name || "un client"} — ${message}`
-      : "Bonjour, je souhaite avoir plus d'informations sur vos offres de voyage.";
-    window.open(whatsappLink(text), "_blank", "noopener,noreferrer");
-  };
+function ContactPage() {
+  const cards = [
+    { Icon: MessageCircle, title: "WhatsApp", value: site.phone, href: whatsappLink(), cta: "Écrire" },
+    { Icon: Phone, title: "Téléphone", value: site.phone, href: telLink(site.phone), cta: "Appeler" },
+    { Icon: Mail, title: "E-mail", value: site.email, href: `mailto:${site.email}`, cta: "Envoyer" },
+    { Icon: Clock, title: "Horaires", value: site.hours, href: undefined, cta: undefined },
+  ];
 
   return (
     <>
       <PageHero
+        image="hero-contact"
+        imageAlt="Conseillère au téléphone"
         eyebrow="Contact"
         title="Parlons de votre prochain voyage"
-        description="Écrivez-nous sur WhatsApp, appelez-nous ou passez dans l'une de nos agences. Coordonnées placeholder — à compléter."
+        subtitle="Une question, un devis, un projet de Omra ou de voyage ? Écrivez-nous : un conseiller vous répond rapidement."
+        breadcrumb={[{ label: "Accueil", to: "/" }, { label: "Contact" }]}
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
-        <div className="grid gap-10 lg:grid-cols-2">
-          {/* Contact details */}
+      <section className="bg-background py-16 md:py-24">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 md:px-8 lg:grid-cols-[1.25fr_0.75fr]">
           <Reveal>
-            <div className="space-y-4">
-              <a
-                href={whatsappLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-gold/60 hover:shadow-md"
-              >
-                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                  <Phone className="size-5" />
-                </span>
-                <span>
-                  <span className="block text-sm font-semibold text-foreground">WhatsApp</span>
-                  <span className="block text-sm text-muted-foreground">{site.phone}</span>
-                </span>
-              </a>
-              <div className="flex items-center gap-4 rounded-2xl border border-border bg-card p-5">
-                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-secondary text-gold-deep">
-                  <Mail className="size-5" />
-                </span>
-                <span>
-                  <span className="block text-sm font-semibold text-foreground">Email</span>
-                  <span className="block text-sm text-muted-foreground">{site.email}</span>
-                </span>
-              </div>
-              <div className="flex items-center gap-4 rounded-2xl border border-border bg-card p-5">
-                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-secondary text-gold-deep">
-                  <MapPin className="size-5" />
-                </span>
-                <span>
-                  <span className="block text-sm font-semibold text-foreground">Nos agences</span>
-                  <span className="block text-sm text-muted-foreground">{site.addressLine}</span>
-                </span>
-              </div>
-            </div>
+            <StaticLeadForm
+              title="Envoyez-nous votre demande"
+              subtitle="Tous les champs marqués d'une * sont obligatoires."
+              fields={["name", "phone", "city", "offer", "travellers", "period", "message"]}
+            />
           </Reveal>
 
-          {/* Placeholder form → opens WhatsApp */}
-          <Reveal delay={0.1}>
-            <form onSubmit={handleSubmit} className="rounded-2xl border border-border bg-card p-7 shadow-sm">
-              <h2 className="font-display text-2xl font-semibold text-foreground">
-                Envoyez-nous un message
-              </h2>
-              <p className="mt-1.5 text-sm text-muted-foreground">
-                Votre message s'ouvrira dans WhatsApp, prêt à envoyer.
-              </p>
-              <div className="mt-6 space-y-4">
-                <div>
-                  <label htmlFor="contact-name" className="mb-1.5 block text-sm font-medium text-foreground">
-                    Votre nom
-                  </label>
-                  <input
-                    id="contact-name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Nom placeholder"
-                    className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-gold focus:ring-2 focus:ring-gold/30"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="contact-message" className="mb-1.5 block text-sm font-medium text-foreground">
-                    Votre message
-                  </label>
-                  <textarea
-                    id="contact-message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    rows={4}
-                    placeholder="Ex. Je souhaite un devis pour une Omra…"
-                    className="w-full resize-none rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-gold focus:ring-2 focus:ring-gold/30"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[0_8px_24px_-8px] shadow-gold-deep/50 transition-all hover:-translate-y-0.5 hover:bg-gold-light"
+          <div className="space-y-4">
+            <Stagger className="space-y-4">
+              {cards.map(({ Icon, title, value, href, cta }) => (
+                <StaggerItem key={title}>
+                  <div className="group flex items-center gap-4 rounded-2xl border border-ink/10 bg-card p-5 transition-all duration-300 hover:border-gold-deep/50">
+                    <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-full border border-gold-deep/40 text-gold-deep transition-colors group-hover:bg-gold group-hover:text-coal">
+                      <Icon className="size-5" aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-semibold text-ink">{title}</span>
+                      <span className="block truncate text-sm text-ink/70">{value}</span>
+                    </span>
+                    {href && cta && (
+                      <a
+                        href={href}
+                        {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        className="rounded-full border border-gold-deep/40 px-4 py-2 text-xs font-semibold text-ink transition-colors hover:bg-gold hover:text-coal"
+                      >
+                        {cta}
+                      </a>
+                    )}
+                  </div>
+                </StaggerItem>
+              ))}
+            </Stagger>
+            <Reveal className="rounded-2xl bg-coal p-6 text-cream">
+              <p className="font-display text-xl font-semibold">Suivez-nous</p>
+              <p className="mt-1 text-sm text-cream/65">Offres, départs et coulisses.</p>
+              <Socials className="mt-4" />
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Agencies list */}
+      <section className="bg-sand py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <SectionHeading eyebrow="Nos agences" title="Passez nous voir" />
+          <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {site.branches.map((b) => (
+              <StaggerItem key={b.id} className="rounded-2xl border border-ink/10 bg-cream p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-deep">{b.city}</p>
+                <p className="mt-1 font-display text-xl font-semibold text-ink">{b.label}</p>
+                <p className="mt-3 flex items-start gap-2 text-sm text-ink/70">
+                  <MapPin className="mt-0.5 size-4 shrink-0 text-gold-deep" aria-hidden="true" />
+                  {b.address}
+                </p>
+                <a href={telLink(b.phone)} className="mt-1.5 flex items-center gap-2 text-sm text-ink/70 hover:text-gold-deep">
+                  <Phone className="size-4 shrink-0 text-gold-deep" aria-hidden="true" />
+                  {b.phone}
+                </a>
+                <a
+                  href={mapsLink(b)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex text-sm font-semibold text-ink underline decoration-gold-deep underline-offset-4 hover:text-gold-deep"
                 >
-                  <Send className="size-4" />
-                  Envoyer sur WhatsApp
-                </button>
-              </div>
-            </form>
+                  Itinéraire
+                </a>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-background py-16 pb-28 md:py-24 md:pb-36">
+        <div className="mx-auto max-w-3xl px-4 md:px-8">
+          <SectionHeading eyebrow="FAQ" title="Questions fréquentes" />
+          <Reveal className="mt-10">
+            <Accordion items={contactFaq} />
           </Reveal>
         </div>
       </section>

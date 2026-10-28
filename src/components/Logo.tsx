@@ -1,4 +1,4 @@
-import logoAsset from "@/assets/morocco-travel-logo.png.asset.json";
+import logoUrl from "@/assets/morocco-travel-agency-logo.png";
 import { site } from "@/config/site";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +14,7 @@ export function Logo({ className, showWordmark = true, tone = "dark" }: LogoProp
   return (
     <span className={cn("flex items-center gap-2.5", className)}>
       <img
-        src={logoAsset.url}
+        src={logoUrl}
         alt={site.name}
         className={cn(
           "h-10 w-10 shrink-0 rounded-full object-cover ring-1 md:h-11 md:w-11",
