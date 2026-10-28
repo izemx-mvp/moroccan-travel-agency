@@ -10,33 +10,52 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OmraRouteImport } from './routes/omra'
+import { Route as OmraSlugRouteImport } from './routes/omra.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OmraRoute = OmraRouteImport.update({
+  id: '/omra',
+  path: '/omra',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OmraSlugRoute = OmraSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => OmraRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/omra': typeof OmraRouteWithChildren
+  '/omra/$slug': typeof OmraSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/omra': typeof OmraRouteWithChildren
+  '/omra/$slug': typeof OmraSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/omra': typeof OmraRouteWithChildren
+  '/omra/$slug': typeof OmraSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/omra' | '/omra/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/omra' | '/omra/$slug'
+  id: '__root__' | '/' | '/omra' | '/omra/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  OmraRoute: typeof OmraRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +67,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/omra': {
+      id: '/omra'
+      path: '/omra'
+      fullPath: '/omra'
+      preLoaderRoute: typeof OmraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/omra/$slug': {
+      id: '/omra/$slug'
+      path: '/$slug'
+      fullPath: '/omra/$slug'
+      preLoaderRoute: typeof OmraSlugRouteImport
+      parentRoute: typeof OmraRoute
+    }
   }
 }
 
+interface OmraRouteChildren {
+  OmraSlugRoute: typeof OmraSlugRoute
+}
+
+const OmraRouteChildren: OmraRouteChildren = {
+  OmraSlugRoute: OmraSlugRoute,
+}
+
+const OmraRouteWithChildren = OmraRoute._addFileChildren(OmraRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  OmraRoute: OmraRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
