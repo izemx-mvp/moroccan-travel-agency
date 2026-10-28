@@ -1,5 +1,4 @@
 import {
-  BadgeCheck,
   BookOpenCheck,
   Building2,
   CalendarCheck,
@@ -140,7 +139,6 @@ export interface IconItem {
 }
 
 export const trustItems: { Icon: LucideIcon; label: string }[] = [
-  { Icon: BadgeCheck, label: "Agrément — n° à compléter" },
   { Icon: Building2, label: "Hôtels proches du Haram" },
   { Icon: BookOpenCheck, label: "Encadrement religieux" },
   { Icon: Stamp, label: "Visa inclus" },
