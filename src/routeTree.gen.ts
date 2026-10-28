@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as AgencesRouteImport } from './routes/agences'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as HajjRouteImport } from './routes/hajj'
 import { Route as HotelsRouteImport } from './routes/hotels'
 import { Route as OmraRouteImport } from './routes/omra'
@@ -22,9 +24,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AProposRoute = AProposRouteImport.update({
+  id: '/a-propos',
+  path: '/a-propos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AgencesRoute = AgencesRouteImport.update({
   id: '/agences',
   path: '/agences',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HajjRoute = HajjRouteImport.update({
@@ -55,7 +67,9 @@ const OmraSlugRoute = OmraSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
   '/agences': typeof AgencesRoute
+  '/contact': typeof ContactRoute
   '/hajj': typeof HajjRoute
   '/hotels': typeof HotelsRoute
   '/omra': typeof OmraRouteWithChildren
@@ -64,7 +78,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
   '/agences': typeof AgencesRoute
+  '/contact': typeof ContactRoute
   '/hajj': typeof HajjRoute
   '/hotels': typeof HotelsRoute
   '/omra': typeof OmraRouteWithChildren
@@ -74,7 +90,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
   '/agences': typeof AgencesRoute
+  '/contact': typeof ContactRoute
   '/hajj': typeof HajjRoute
   '/hotels': typeof HotelsRoute
   '/omra': typeof OmraRouteWithChildren
@@ -85,7 +103,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/a-propos'
     | '/agences'
+    | '/contact'
     | '/hajj'
     | '/hotels'
     | '/omra'
@@ -94,7 +114,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/a-propos'
     | '/agences'
+    | '/contact'
     | '/hajj'
     | '/hotels'
     | '/omra'
@@ -103,7 +125,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/a-propos'
     | '/agences'
+    | '/contact'
     | '/hajj'
     | '/hotels'
     | '/omra'
@@ -113,7 +137,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AProposRoute: typeof AProposRoute
   AgencesRoute: typeof AgencesRoute
+  ContactRoute: typeof ContactRoute
   HajjRoute: typeof HajjRoute
   HotelsRoute: typeof HotelsRoute
   OmraRoute: typeof OmraRouteWithChildren
@@ -129,11 +155,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/a-propos': {
+      id: '/a-propos'
+      path: '/a-propos'
+      fullPath: '/a-propos'
+      preLoaderRoute: typeof AProposRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/agences': {
       id: '/agences'
       path: '/agences'
       fullPath: '/agences'
       preLoaderRoute: typeof AgencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hajj': {
@@ -186,7 +226,9 @@ const OmraRouteWithChildren = OmraRoute._addFileChildren(OmraRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AProposRoute: AProposRoute,
   AgencesRoute: AgencesRoute,
+  ContactRoute: ContactRoute,
   HajjRoute: HajjRoute,
   HotelsRoute: HotelsRoute,
   OmraRoute: OmraRouteWithChildren,
